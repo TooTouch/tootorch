@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+with open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name                = 'tootorch',
-    version             = '0.1',
+    version             = '0.3',
     description         = 'Implemetation XAI in Computer Vision (Pytorch)',
     author              = 'Jaehuck Heo',
     author_email        = 'wogur379@gmail.com',
