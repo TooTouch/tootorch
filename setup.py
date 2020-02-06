@@ -6,6 +6,8 @@ with open('README.md', encoding='utf-8') as f:
 setup(
     name                = 'tootorch',
     version             = '0.1',
+    long_description    = long_description,
+    long_description_content_type = 'text/markdown',
     description         = 'Implemetation XAI in Computer Vision (Pytorch)',
     author              = 'Jaehuck Heo',
     author_email        = 'wogur379@gmail.com',
