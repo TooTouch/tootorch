@@ -12,8 +12,8 @@ from PIL import Image
 import h5py
 from tqdm import tqdm
 
-from tootorch.dataload import mnist_load, cifar10_load
-from tootorch.models import SimpleCNN, RAN, WideResNetAttention
+from .dataload import mnist_load, cifar10_load
+from .models import SimpleCNN, RAN, WideResNetAttention
 
 def seed_everything(seed=223):
     random.seed(seed)

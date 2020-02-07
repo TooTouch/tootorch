@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from collections import OrderedDict
-from tootorch.attention_methods import cbam, cam, ran, warn
+from .attention_methods import cbam, cam, ran, warn
 
 class SimpleCNN(nn.Module):
     def __init__(self, target, attention=None):

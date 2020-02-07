@@ -2,8 +2,8 @@ import h5py
 import numpy as np
 import json
 
-from tootorch.saliency.attribution_methods import *
-from tootorch.models import SimpleCNNDeconv
+from .saliency.attribution_methods import *
+from .models import SimpleCNNDeconv
 
 import matplotlib.pyplot as plt
 
