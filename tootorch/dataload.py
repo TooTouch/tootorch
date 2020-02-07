@@ -4,7 +4,7 @@ import numpy as np # random seed
 import torch
 import torchvision.datasets as dset  
 import torchvision.transforms as transforms 
-from .utils.data import DataLoader, sampler, random_split, Dataset
+from torch.utils.data import DataLoader, sampler, random_split, Dataset
 from PIL import Image
 
 
