@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from collections import OrderedDict
-from attention_methods import cbam, cam, ran, warn
+from tootorch.attention_methods import cbam, cam, ran, warn
 
 class SimpleCNN(nn.Module):
     def __init__(self, target, attention=None):
@@ -146,14 +146,13 @@ class SimpleCNNDeconv(nn.Module):
 
     
 class RAN(nn.Module):
-    # Residual Attention Network (RAN)
     def __init__(self, target, nb_class=10, t_depth=56):
-        '''
-        params
+        """Residual Attention Network (RAN)
+        Args:
             nb_class: number of class
             target: ['mnist','cifar10','imagenet']
             t_depth: [56,92] default is 56. 
-        '''
+        """
         super(RAN, self).__init__()
         if target == 'mnist':
             size = 28

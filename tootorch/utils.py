@@ -12,8 +12,8 @@ from PIL import Image
 import h5py
 from tqdm import tqdm
 
-from dataload import mnist_load, cifar10_load
-from models import SimpleCNN, RAN, WideResNetAttention
+from tootorch.dataload import mnist_load, cifar10_load
+from tootorch.models import SimpleCNN, RAN, WideResNetAttention
 
 def seed_everything(seed=223):
     random.seed(seed)
@@ -24,25 +24,25 @@ def seed_everything(seed=223):
     torch.backends.cudnn.deterministic = True
 
 class ModelTrain:
-    '''
+    """
     Model Training and Validation
-    '''
+    """
     def __init__(self, model, data, epochs, criterion, optimizer, device, model_name=None, savedir=None, monitor=None, mode=None, validation=None, verbose=0):
-        '''
-        args:
-        - model: training model
-        - data: train dataset
-        - epochs: epochs
-        - criterion: critetion
-        - optimizer: optimizer
-        - device: device to use [cuda:i, cpu], i=0, ...,n
-        - model_name: name of model to save
-        - savedir: directory to save
-        - monitor: metric name or loss to check [default: None]
-        - mode: [min, max] [default: None]
-        - validation: test set to evaluate in train [default: None]
-        - verbose: number of score print
-        '''
+        """
+        Args:
+            model: training model
+            data: train dataset
+            epochs: epochs
+            criterion: critetion
+            optimizer: optimizer
+            device: device to use [cuda:i, cpu], i=0, ...,n
+            model_name: name of model to save
+            savedir: directory to save
+            monitor: metric name or loss to check [default: None]
+            mode: [min, max] [default: None]
+            validation: test set to evaluate in train [default: None]
+            verbose: number of score print
+        """
 
         self.model = model
         self.train_set = data
@@ -176,18 +176,18 @@ class ModelTrain:
 
 
 class ModelTest:
-    '''
+    """
     Model Test
-    '''
+    """
     def __init__(self, model, data, model_name, loaddir, device):
-        '''
-        args:
-        - model: training model
-        - data: train dataset
-        - model_name: name of model to save
-        - loaddir: directory to load
-        - device: device to use [cuda:i, cpu], i=0, ...,n
-        '''
+        """
+        Args:
+            model: training model
+            data: train dataset
+            model_name: name of model to save
+            loaddir: directory to load
+            device: device to use [cuda:i, cpu], i=0, ...,n
+        """
 
         self.model = model 
         self.test_set = data
@@ -231,13 +231,13 @@ class ModelTest:
 
 class CheckPoint:
     def __init__(self, dirname, model_name, monitor, mode):
-        '''
-        args:
-        - dirname: save directory
-        - model_name: model name
-        - monitor: metric name or loss
-        - mode: [min, max]
-        '''
+        """
+        Args:
+            dirname: save directory
+            model_name: model name
+            monitor: metric name or loss
+            mode: [min, max]
+        """
 
         self.best = 0
         self.model_name = model_name
@@ -250,12 +250,12 @@ class CheckPoint:
             os.mkdir(self.save_dir)
 
     def check(self, epoch, model, score):
-        '''
-        args:
-        - epoch: current epoch
-        - model: training model
-        - score: current score
-        '''
+        """
+        Args:
+            epoch: current epoch
+            model: training model
+            score: current score
+        """
 
         if self.mode == 'min':
             if score < self.best:
@@ -266,12 +266,12 @@ class CheckPoint:
 
         
     def model_save(self, epoch, model, score):
-        '''
-        args:
-        - epoch: current epoch
-        - model: training model
-        - score: current score
-        '''
+        """
+        Args:
+            epoch: current epoch
+            model: training model
+            score: current score
+        """
 
         print('Save complete, epoch: {0:}: Best {1:} has changed from {2:.5f} to {3:.5f}'.format(epoch, self.monitor, self.best, score))
         self.best = score
@@ -285,9 +285,9 @@ class CheckPoint:
 
 
 class EarlyStopping:
-    '''
+    """
     Model early stopping
-    '''
+    """
     def __init__(self, patience, factor=0.001):
         self.patience = patience
         self.factor = factor
@@ -309,20 +309,18 @@ class EarlyStopping:
 
 
 def get_samples(target, nb_class=10, sample_index=0, attention=None, device='cpu'):
-    '''
-    Get samples : original images, preprocessed images, target class, trained model
+    """Get samples : original images, preprocessed images, target class, trained model
+    Args:
+        target: [mnist, cifar10]
+        nb_class: number of classes
+        example_index: index of image by class
 
-    args:
-    - target: [mnist, cifar10]
-    - nb_class: number of classes
-    - example_index: index of image by class
-
-    return:
-    - original_images (numpy array): Original images, shape = (number of class, W, H, C)
-    - pre_images (torch array): Preprocessing images, shape = (number of class, C, W, H)
-    - target_classes (dictionary): keys = class index, values = class name
-    - model (pytorch model): pretrained model
-    '''
+    Returns:
+        original_images (numpy array): Original images, shape = (number of class, W, H, C)
+        pre_images (torch array): Preprocessing images, shape = (number of class, C, W, H)
+        target_classes (dictionary): keys = class index, values = class name
+        model (pytorch model): pretrained model
+    """
 
     if target == 'mnist':
         image_size = (28,28,1)
@@ -379,15 +377,13 @@ def get_samples(target, nb_class=10, sample_index=0, attention=None, device='cpu
 
 
 def rescale_image(images, channel=True):
-    '''
-    MinMax scaling
-
-    args:
-    - images : images (batch size, C, H, W) if channel is True else (batch size, H, W)
-    - channel : channel status (boolean)
-    return:
-    - images : rescaled images (batch_size, H, W, C)
-    '''
+    """MinMax scaling
+    Args:
+        images : images (batch size, C, H, W) if channel is True else (batch size, H, W)
+        channel : channel status (boolean)
+    Return:
+        images : rescaled images (batch_size, H, W, C)
+    """
 
     if channel:
         mins = np.min(images, axis=(1,2,3)) # (batch size, )
@@ -410,15 +406,13 @@ def rescale_image(images, channel=True):
     return images
 
 def resize_image(image, origin_image, color):
-    '''
-    Resize input image to original image size
+    """Resize input image to original image size
+    Args:
+        image: image. (H, W) 
 
-    args:
-    - image: image. (H, W) 
-
-    return:
-    - img : resized image
-    '''
+    Return:
+        img : resized image
+    """
     img = np.uint8(Image.fromarray(image).resize((origin_image.shape[-2:]), Image.ANTIALIAS))/255
     if color:
         # images (H,W) to (H,W,C)
@@ -430,15 +424,13 @@ def resize_image(image, origin_image, color):
     return img
 
 def save_saliency_map(attr_method, dataloader, save_dir, name, **kwargs):
-    '''
-    Save saliency map extracted by attribution method
-
-    args:
-    - attr_method: attribution method
-    - dataloader: dataset loader
-    - name: tqdm description
-    - save_dir: directory to save hdf5 file
-    '''
+    """Save saliency map extracted by attribution method
+    Args:
+        attr_method: attribution method
+        dataloader: dataset loader
+        name: tqdm description
+        save_dir: directory to save hdf5 file
+    """
     # config
     img_size = dataloader.dataset.data.shape[1:] 
     dim = len(img_size)
@@ -466,19 +458,17 @@ def save_saliency_map(attr_method, dataloader, save_dir, name, **kwargs):
     print('Save saliency maps')
 
 def calc_accuracy(model, dataset, device='cpu'):
-    '''
-    Calculate accuracy 
+    """Calculate accuracy 
+    Args:
+        model: trained model
+        dataset: dataset to evaluate
+        idx2class: index and class dictionary
+        device: device to use [cuda:i, cpu], i=0, ...,n 
 
-    args:
-    - model: trained model
-    - dataset: dataset to evaluate
-    - idx2class: index and class dictionary
-    - device: device to use [cuda:i, cpu], i=0, ...,n 
-
-    return:
-    - total_acc: total accuracy
-    - acc_indice: accuracy by class
-    '''
+    Return:
+        total_acc: total accuracy
+        acc_indice: accuracy by class
+    """
     # ture type must be numpy array
     true = np.array(dataset.dataset.targets)
     indices_by_idx = dict((idx, np.where(true==idx)) for idx in range(10))
@@ -512,44 +502,38 @@ def calc_accuracy(model, dataset, device='cpu'):
 
 
 def count_params(model):
-    '''
-    Count nubmer of model parameters
+    """Count nubmer of model parameters
+    Args:
+        model: model to count parameters
 
-    args:
-    - model: model to count parameters
-
-    return:
-    - nb_params: number of model parameters
-    '''
+    Return:
+        nb_params: number of model parameters
+    """
     nb_params = sum(np.prod(p.size()) for p in model.parameters())
     return nb_params
 
 def acc_concat(acc_lst):
-    '''
-    concatenate total accuracy and accuracy by class
-
-    args:
-    - acc_lst: accuracy list. [total_accuracy, accuracy_by_class]
+    """Concatenate total accuracy and accuracy by class
+    Args:
+        acc_lst: accuracy list. [total_accuracy, accuracy_by_class]
     
-    return:
-    - acc_lst: total accuracy list
-    '''
+    Return:
+        acc_lst: total accuracy list
+    """
     acc_lst[1].append(acc_lst[0])
     return acc_lst[1]
 
 def compare_model_acc(model_lst, dataloader, model_names, device='cpu'):
-    '''
-    Comparison model accuracy
-
-    args: 
-    - model_lst: model list to compare
-    - dataloader: data to evaluate
-    - model_names: model names
-    - device: device to use [cuda:i, cpu], i=0, ...,n
+    """Comparison model accuracy
+    Args: 
+        model_lst: model list to compare
+        dataloader: data to evaluate
+        model_names: model names
+        device: device to use [cuda:i, cpu], i=0, ...,n
     
-    return:
-    - acc_df: dataframe accuracy of models. (number of model, number of class)
-    '''
+    Return:
+        acc_df: dataframe accuracy of models. (number of model, number of class)
+    """
     assert len(model_lst) > 1, 'Model list must have at least two models'
     assert len(model_lst) == len(model_names), 'Model list must be the same length as the brist'
 

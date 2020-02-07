@@ -1,7 +1,9 @@
 import numpy as np
 import torch
 from torch.autograd import Variable
-from utils import seed_everything, rescale_image
+from tootorch.utils import seed_everything, rescale_image
+
+__all__ = ['normal_dist','generate_smooth_grad','generate_smooth_square_grad','generate_smooth_var_grad']
 
 # normal distribution
 def normal_dist(img, m, std):

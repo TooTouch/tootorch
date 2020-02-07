@@ -15,6 +15,7 @@ import h5py
 import numpy as np
 from tqdm import tqdm
 
+__all__ = ['Selectivity','adjust_image','selecticity_evaluation']
 
 # TODO : Add ensemble methods 
 class Selectivity(object):

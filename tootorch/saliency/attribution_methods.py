@@ -9,14 +9,15 @@ from tqdm import tqdm
 from collections import OrderedDict
 from functools import partial
 
-from utils import rescale_image, resize_image, save_saliency_map
-from models import SimpleCNNDeconv
+from tootorch.utils import rescale_image, resize_image, save_saliency_map
+from tootorch.models import SimpleCNNDeconv
 
+__all__ = ['ConvOutput','VanillaBackprop','CAM','DeconvNet','GradCAM','GuidedGradCAM','InputBackprop','IntegratedGradients']
 
 class ConvOutput(object):
-    '''
+    """
     Convolution Output
-    '''
+    """
     def __init__(self, model, **kwargs):
         # seqeuntial name
         self.seq_name = 'features' if 'seq_name' not in kwargs.keys() else kwargs['seq_name']
@@ -68,9 +69,9 @@ class ConvOutput(object):
 
 
 class VanillaBackprop(object):
-    '''
+    """
     Vanilla Backpropagation
-    '''
+    """
     def __init__(self, model, **kwargs):
         self.model = model 
         # evaluation mode
@@ -101,9 +102,9 @@ class VanillaBackprop(object):
 
 
 class IntegratedGradients(object):
-    '''
+    """
     Integrated Gradients
-    '''
+    """
     def __init__(self, model, **kwargs):
         self.model = model
         # evaluation mode
@@ -157,9 +158,9 @@ class IntegratedGradients(object):
 
 
 class GuidedBackprop(object):
-    '''
+    """
     Guided Backpropagation
-    '''
+    """
     def __init__(self, model, **kwargs):
         # seqeuntial name
         self.seq_name = 'features' if 'seq_name' not in kwargs.keys() else kwargs['seq_name']
@@ -212,9 +213,9 @@ class GuidedBackprop(object):
 
 
 class GradCAM(object):
-    '''
+    """
     Gradient Class Activation Map (Grad-CAM)
-    '''
+    """
     def __init__(self, model, **kwargs):
         # seqeuntial name
         self.seq_name = 'features' if 'seq_name' not in kwargs.keys() else kwargs['seq_name']
@@ -288,9 +289,9 @@ class GradCAM(object):
 
 
 class CAM(object):
-    '''
+    """
     Class Activation Map (CAM)
-    '''
+    """
     def __init__(self, model, **kwargs):
         # seqeuntial name
         self.seq_name = 'features' if 'seq_name' not in kwargs.keys() else kwargs['seq_name']
@@ -353,9 +354,9 @@ class CAM(object):
  
 
 class DeconvNet(object):
-    '''
+    """
     Deconvolutional Network
-    '''
+    """
     def __init__(self, model, deconv_model, **kwargs):
         # seqeuntial name
         self.seq_name = 'features' if 'seq_name' not in kwargs.keys() else kwargs['seq_name']
@@ -404,9 +405,9 @@ class DeconvNet(object):
 
 
 class GuidedGradCAM(object):
-    '''
+    """
     Guided backpropagation x Grad CAM
-    '''
+    """
     def __init__(self, model, **kwargs):
         self.GC_model = GradCAM(model, **kwargs)
         self.GB_model = GuidedBackprop(model, **kwargs)
@@ -431,9 +432,9 @@ class GuidedGradCAM(object):
 
     
 class InputBackprop(object):
-    '''
+    """
     Input x Vanilla Backpropagation
-    '''
+    """
     def __init__(self, model, **kwargs):
         self.VBP_model = VanillaBackprop(model, **kwargs)
 

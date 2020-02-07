@@ -2,10 +2,12 @@ import h5py
 import numpy as np
 import json
 
-from saliency.attribution_methods import *
-from models import SimpleCNNDeconv
+from tootorch.saliency.attribution_methods import *
+from tootorch.models import SimpleCNNDeconv
 
 import matplotlib.pyplot as plt
+
+__all__ = ['visualize_saliencys','visualize_selectivity','visualize_ROARnKAR','make_saliency_map','visualize_coherence','visualize_trainlogs','visualize_models_log']
 
 def visualize_saliencys(origin_imgs, results, probs, preds, classes, names, target, row, col, savedir=None, **kwargs):
     '''

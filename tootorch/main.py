@@ -13,10 +13,10 @@ import torch.nn.functional as F
 import torchvision.models as models
 
 # defined function
-from saliency.evaluation_methods import Selectivity, adjust_image
-from dataload import mnist_load, cifar10_load
-from models import SimpleCNN, RAN, WideResNetAttention
-from utils import seed_everything, ModelTrain, ModelTest
+from tootorch.saliency.evaluation_methods import Selectivity, adjust_image
+from tootorch.dataload import mnist_load, cifar10_load
+from tootorch.models import SimpleCNN, RAN, WideResNetAttention
+from tootorch.utils import seed_everything, ModelTrain, ModelTest
 
 # arguments
 import argparse
