@@ -40,7 +40,7 @@ pip install tootorch
 
 # Attention Methods
 - Residual Attention Network (RAN) [7]
-- - Class Activation Methods (CAM) [8]
+- Class Activation Methods (CAM) [8]
 - Convolutional Block Attention Module (CBAM) [9]
 - Wide Attention Residual Network (WARN) [10]
 
