@@ -393,6 +393,7 @@ def rescale_image(images, channel=True):
 
         images = (images - mins)/(maxs - mins)
         images = images.transpose(0,2,3,1) # (batch size, H, W, C)
+        images = np.uint8(images * 255)
 
     else:
         mins = images.min(axis=(1,2)) # (batch size, )
@@ -420,6 +421,7 @@ def resize_image(image, origin_image, color):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     else:
         img = np.expand_dims(img, axis=2)
+        img = np.uint8(img*255)
     
     return img
 
