@@ -12,7 +12,7 @@ from functools import partial
 from tootorch.utils import rescale_image, resize_image, save_saliency_map
 from tootorch.models import SimpleCNNDeconv
 
-__all__ = ['ConvOutput','VanillaBackprop','CAM','DeconvNet','GradCAM','GuidedGradCAM','InputBackprop','IntegratedGradients']
+__all__ = ['ConvOutput','VanillaBackprop','CAM','DeconvNet','GuidedBackprop','GradCAM','GuidedGradCAM','InputBackprop','IntegratedGradients']
 
 class ConvOutput(object):
     """
